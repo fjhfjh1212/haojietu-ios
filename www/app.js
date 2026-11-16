@@ -73,6 +73,32 @@
     if (e.target === $('alert-overlay')) $('alert-overlay').hidden = true;
   });
 
+  /* ================= action sheet (SActionSheet) ================= */
+  function showActionSheet(items) {
+    var ov = $('as-overlay');
+    var sheet = $('as-sheet');
+    sheet.innerHTML = '';
+    items.forEach(function (it) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'as-item';
+      b.textContent = it.title;
+      b.addEventListener('click', function () {
+        ov.hidden = true;
+        if (it.onPress) it.onPress();
+      });
+      sheet.appendChild(b);
+    });
+    var cancel = document.createElement('button');
+    cancel.type = 'button'; cancel.className = 'as-cancel';
+    cancel.textContent = '取消';
+    cancel.addEventListener('click', function () { ov.hidden = true; });
+    sheet.appendChild(cancel);
+    ov.hidden = false;
+  }
+  $('as-overlay').addEventListener('click', function (e) {
+    if (e.target === $('as-overlay')) $('as-overlay').hidden = true;
+  });
+
   /* ================= picker (PullPicker) ================= */
   function showPicker(title, options, selectedIndex, onPick) {
     $('picker-title').textContent = title;
@@ -113,7 +139,12 @@
         card.appendChild(lab);
       }
       var inp;
-      if (f.type === 'select' && f.options) {
+      if (f.type === 'switch') {
+        inp = document.createElement('input');
+        inp.className = 'dlg-switch';
+        inp.type = 'checkbox';
+        inp.checked = !!f.value;
+      } else if (f.type === 'select' && f.options) {
         inp = document.createElement('select');
         inp.className = 'dlg-input';
         f.options.forEach(function (o) {
@@ -132,7 +163,7 @@
         inp.value = f.value !== undefined ? f.value : '';
       }
       card.appendChild(inp);
-      inputs.push({ key: f.key, el: inp });
+      inputs.push({ key: f.key, el: inp, isSwitch: f.type === 'switch' });
     });
     var btns = document.createElement('div');
     btns.className = 'dlg-btns';
@@ -143,7 +174,7 @@
     ok.type = 'button'; ok.textContent = '确认';
     ok.addEventListener('click', function () {
       var vals = {};
-      inputs.forEach(function (it) { vals[it.key] = it.el.value; });
+      inputs.forEach(function (it) { vals[it.key] = it.isSwitch ? it.el.checked : it.el.value; });
       $('dlg-overlay').hidden = true;
       if (onOk) onOk(vals);
     });
@@ -214,6 +245,8 @@
     var back = document.createElement('button');
     back.type = 'button'; back.className = 'nav-back'; back.textContent = '‹';
     back.setAttribute('aria-label', '返回');
+    /* root page (home) has no back button, as in the original */
+    if (stack.length === 0) back.style.visibility = 'hidden';
     back.addEventListener('click', function () { nav.pop(); });
     var title = document.createElement('span');
     title.className = 'nav-title';
@@ -284,6 +317,9 @@
     _syncTabbar: function () {
       var show = stack.length <= 1;
       $('tabbar').style.display = show ? '' : 'none';
+      /* 钱包 tab gating (mod 1767): hidden when logged out */
+      var wt = document.querySelector('#tabbar .tab[data-tab="wallet"]');
+      if (wt) wt.style.display = (typeof DB !== 'undefined' && DB.loggedIn && DB.loggedIn()) ? '' : 'none';
     }
   };
 
@@ -309,7 +345,7 @@
     store: store, nav: nav, PAGES: PAGES,
     $: $, esc: esc, el: el, money: money, nowTime: nowTime,
     toast: toast, showLoading: showLoading, hideLoading: hideLoading,
-    showAlert: showAlert, showPicker: showPicker, openDialog: openDialog,
+    showAlert: showAlert, showPicker: showPicker, showActionSheet: showActionSheet, openDialog: openDialog,
     viewImage: viewImage, openIconPicker: openIconPicker,
     currentIconIndex: currentIconIndex, ICON_LABELS: ICON_LABELS,
     applyViewMode: applyViewMode, toggleViewMode: toggleViewMode
