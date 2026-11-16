@@ -1,0 +1,1 @@
+{"capacitor":{"ios":{"src":"ios"}},"description":"Alternate app icon switching for 好截图2 (iOS alternate icons)","keywords":["capacitor","plugin","ios","alternate-icon"],"license":"MIT","main":"dist/index.js","name":"@haojietu/alternate-icon","types":"dist/index.d.ts","version":"1.0.0"}
