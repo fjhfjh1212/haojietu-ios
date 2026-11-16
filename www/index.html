@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1EA1F3">
+<title>好截图2</title>
+<link rel="icon" href="img/ic_launcher.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ 底部 4 Tab 壳（module 1767 Home / STabView） ============ -->
+<div id="app" class="app">
+  <div id="stack" class="stack"></div>
+  <nav id="tabbar" class="tabbar">
+    <button type="button" class="tab" data-tab="home"><span class="tab-ic fa">&#xf015;</span><span class="tab-label">主页</span></button>
+    <button type="button" class="tab" data-tab="me"><span class="tab-ic fa">&#xf007;</span><span class="tab-label">我</span></button>
+    <button type="button" class="tab" data-tab="wallet"><span class="tab-ic fa">&#xf0d6;</span><span class="tab-label">钱包</span></button>
+    <button type="button" class="tab" data-tab="more"><span class="tab-ic fa">&#xf013;</span><span class="tab-label">更多</span></button>
+  </nav>
+</div>
+
+<!-- ============ 通用弹窗：选择器（PullPicker） ============ -->
+<div id="picker-overlay" class="overlay" hidden>
+  <div class="picker-card" id="picker-card">
+    <div class="picker-title" id="picker-title"></div>
+    <div class="picker-list" id="picker-list"></div>
+    <button type="button" class="picker-cancel" id="picker-cancel">取消</button>
+  </div>
+</div>
+
+<!-- ============ 通用弹窗：提示（Alert） ============ -->
+<div id="alert-overlay" class="overlay" hidden>
+  <div class="dlg-card" id="alert-card">
+    <div class="dlg-title" id="alert-title">提示</div>
+    <div class="dlg-body" id="alert-body"></div>
+    <div class="dlg-btns"><button type="button" id="alert-ok">确认</button></div>
+  </div>
+</div>
+
+<!-- ============ 通用弹窗：编辑表单 ============ -->
+<div id="dlg-overlay" class="overlay" hidden>
+  <div class="dlg-card" id="dlg-card"></div>
+</div>
+
+<!-- ============ 加载中 ============ -->
+<div id="loading-overlay" class="overlay loading" hidden>
+  <div class="loading-box"><span class="loading-spin"></span></div>
+</div>
+
+<!-- ============ Toast ============ -->
+<div id="toast" class="toast" hidden></div>
+
+<!-- ============ 图片查看器 ============ -->
+<div id="viewer-overlay" class="overlay viewer" hidden>
+  <img id="viewer-img" alt="">
+  <button type="button" id="viewer-close">✕</button>
+</div>
+
+<input type="file" id="file-picker" accept="image/*" hidden>
+<script src="assetmap.js"></script>
+<script src="data.js"></script>
+<script src="pages.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
